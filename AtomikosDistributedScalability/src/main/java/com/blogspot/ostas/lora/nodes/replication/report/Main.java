@@ -23,21 +23,21 @@ public class Main {
         replicateObject = (ReplicateObject) applicationContext.getBean("replicateObject");
     }
 
-    public long getReplicationTimeAcrossNodes(int nodesCount,User obj) throws InterruptedException {
-        for(int i=0;i<nodesCount;i++){
+    public long getReplicationTimeAcrossNodes(int nodesCount, User obj) throws InterruptedException {
+        for (int i = 0; i < nodesCount; i++) {
             cacheNodeManager.registerCacheNode(i);
         }
         SessionFactory[] sessionFactories = new SessionFactory[nodesCount];
-        for(int i=0;i<nodesCount;i++){
-            sessionFactories[i] = (SessionFactory) applicationContext.getBean("h2sessionFactory_Node_"+i);
+        for (int i = 0; i < nodesCount; i++) {
+            sessionFactories[i] = (SessionFactory) applicationContext.getBean("h2sessionFactory_Node_" + i);
         }
         long execTime = replicateObject.replicateAndGetTimeMs(sessionFactories, obj);
-        for(int i=0;i<nodesCount;i++){
+        for (int i = 0; i < nodesCount; i++) {
             cacheNodeManager.unregisterCacheNode(i);
         }
-        System.gc();
         return execTime;
     }
+
     public static void main(String args[]) throws SQLException, InterruptedException {
         Main main = new Main();
         User obj = new User();
@@ -46,19 +46,19 @@ public class Main {
         List<ExecutionItem> executionItemList = new LinkedList<ExecutionItem>();
         ExecutionItem executionItem;
         int higth = 2000;
-        int low   = 100;
+        int low = 100;
         int delta = 100;
         //just for init
         main.getReplicationTimeAcrossNodes(0, obj);
-        int j=1;
-        for(int i=low;i<=higth;i+=delta,j++){
+        int j = 1;
+        for (int i = low; i <= higth; i += delta, j++) {
             executionItem = new ExecutionItem();
             executionItem.setId(j);
             executionItem.setNodesCount(i);
             executionItem.setExecTime(main.getReplicationTimeAcrossNodes(i, obj));
             executionItemList.add(executionItem);
         }
-        for(ExecutionItem execItem : executionItemList){
+        for (ExecutionItem execItem : executionItemList) {
             System.out.printf("Test result : %s\n", execItem.toString());
         }
     }
