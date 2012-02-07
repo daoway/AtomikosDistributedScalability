@@ -164,12 +164,26 @@
                 <enabled>false</enabled>
             </snapshots>
         </repository>
+
+        <repository>
+            <releases>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+                <updatePolicy>never</updatePolicy>
+            </snapshots>
+            <id>repository.jboss.com</id>
+            <name>Jboss Repository for Maven</name>
+            <url>http://repository.jboss.org/nexus/content/groups/public/</url>
+            <layout>default</layout>
+        </repository>
+
     </repositories>
 
     <properties>
-      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-      <atomikos.version>3.7.0</atomikos.version>
-      <springframework.version>3.1.0.RELEASE</springframework.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <atomikos.version>3.7.0</atomikos.version>
+        <springframework.version>3.1.0.RELEASE</springframework.version>
     </properties>
 
 </project>
