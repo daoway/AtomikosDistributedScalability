@@ -16,6 +16,7 @@ public class Main {
     private GenericApplicationContext applicationContext;
     private ICacheNodeManager cacheNodeManager;
     private ReplicateObject replicateObject;
+    private SessionFactory[] sessionFactories;
 
     public Main() {
         applicationContext = new AnnotationConfigApplicationContext(MyConfigH2Node.class);
@@ -27,7 +28,7 @@ public class Main {
         for (int i = 0; i < nodesCount; i++) {
             cacheNodeManager.registerCacheNode(i);
         }
-        SessionFactory[] sessionFactories = new SessionFactory[nodesCount];
+        sessionFactories = new SessionFactory[nodesCount];
         for (int i = 0; i < nodesCount; i++) {
             sessionFactories[i] = (SessionFactory) applicationContext.getBean("h2sessionFactory_Node_" + i);
         }
@@ -35,6 +36,7 @@ public class Main {
         for (int i = 0; i < nodesCount; i++) {
             cacheNodeManager.unregisterCacheNode(i);
         }
+        sessionFactories = null;
         return execTime;
     }
 
@@ -49,7 +51,7 @@ public class Main {
         int low = 100;
         int delta = 100;
         //just for init
-        main.getReplicationTimeAcrossNodes(0, obj);
+        main.getReplicationTimeAcrossNodes(10, obj);
         int j = 1;
         for (int i = low; i <= higth; i += delta, j++) {
             executionItem = new ExecutionItem();

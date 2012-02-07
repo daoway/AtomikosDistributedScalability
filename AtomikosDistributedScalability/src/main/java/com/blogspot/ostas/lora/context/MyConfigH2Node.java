@@ -26,8 +26,6 @@ public class MyConfigH2Node {
         return properties;
     }
 
-    //@Bean(name="userTransactionService",initMethod = "init", destroyMethod = "shutdown")
-    //@Bean(name="userTransactionService",initMethod = "init", destroyMethod = "shutdownWait")
     @Bean(name = "userTransactionService", initMethod = "init", destroyMethod = "shutdownForce")
     public UserTransactionService userTransactionService() {
         return new UserTransactionServiceImp(userTransactionServiceProperties());

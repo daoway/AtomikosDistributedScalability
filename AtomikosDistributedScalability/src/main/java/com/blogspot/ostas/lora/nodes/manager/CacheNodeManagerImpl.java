@@ -53,6 +53,11 @@ public class CacheNodeManagerImpl implements ApplicationContextAware, ICacheNode
         MutablePropertyValues h2DataSourceMutablePropertyValues = new MutablePropertyValues();
         h2DataSourceMutablePropertyValues.addPropertyValue("xaDataSource", new RuntimeBeanReference("h2jdbcXA_Node_" + nodeNumber));
         h2DataSourceMutablePropertyValues.addPropertyValue("uniqueResourceName", "h2DataSource_Node_" + nodeNumber);
+        h2DataSourceMutablePropertyValues.addPropertyValue("poolSize", 1);
+        h2DataSourceMutablePropertyValues.addPropertyValue("minPoolSize", 1);
+        h2DataSourceMutablePropertyValues.addPropertyValue("maxPoolSize", 1);
+        h2DataSourceMutablePropertyValues.addPropertyValue("testQuery", "select 1");
+
         h2DataSource.setPropertyValues(h2DataSourceMutablePropertyValues);
         h2DataSource.setInitMethodName("init");
         h2DataSource.setDestroyMethodName("close");
@@ -71,9 +76,9 @@ public class CacheNodeManagerImpl implements ApplicationContextAware, ICacheNode
 
     @Override
     public void unregisterCacheNode(int nodeNumber) {
-        ((GenericApplicationContext) applicationContext).removeBeanDefinition("h2sessionFactory_Node_" + nodeNumber);
-        ((GenericApplicationContext) applicationContext).removeBeanDefinition("h2DataSource_Node_" + nodeNumber);
-        ((GenericApplicationContext) applicationContext).removeBeanDefinition("h2jdbcXA_Node_" + nodeNumber);
+        defaultListableBeanFactory.removeBeanDefinition("h2sessionFactory_Node_" + nodeNumber);
+        defaultListableBeanFactory.removeBeanDefinition("h2DataSource_Node_" + nodeNumber);
+        defaultListableBeanFactory.removeBeanDefinition("h2jdbcXA_Node_" + nodeNumber);
     }
 
     @Override
