@@ -18,7 +18,8 @@ public class User {
     @Column(name = "passwd")
     private String passwd;
 
-    public User() {}
+    public User() {
+    }
 
     public int getUserId() {
         return userId;

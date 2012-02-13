@@ -31,8 +31,6 @@ public class MyConfigH2Node {
         return new UserTransactionServiceImp(userTransactionServiceProperties());
     }
 
-    ;
-
     @Bean(name = "atomikosTransactionManager", initMethod = "init", destroyMethod = "close")
     @DependsOn("userTransactionService")
     public UserTransactionManager atomikosTransactionManager() {

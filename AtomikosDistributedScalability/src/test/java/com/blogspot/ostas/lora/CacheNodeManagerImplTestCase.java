@@ -16,27 +16,30 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(loader = AnnotationConfigContextLoader.class, classes = {MyConfigH2Node.class})
-@TransactionConfiguration(transactionManager = "jtaTransactionManager",defaultRollback = false)
-public class CacheNodeManagerImplTestCase{
+@TransactionConfiguration(transactionManager = "jtaTransactionManager", defaultRollback = false)
+public class CacheNodeManagerImplTestCase {
     @Autowired
     private ApplicationContext applicationContext;
     @Autowired
     private CacheNodeManagerImpl cacheNodeManager;
+
     @Test
-    public void init(){
+    public void init() {
         Assert.assertNotNull(applicationContext);
         Assert.assertNotNull(cacheNodeManager);
     }
+
     @Test
-    public void cacheRegisterTest(){
+    public void cacheRegisterTest() {
         cacheNodeManager.registerCacheNode(111);
-        Assert.assertNotNull(applicationContext.getBean("h2jdbcXA_Node_"+111));
+        Assert.assertNotNull(applicationContext.getBean("h2jdbcXA_Node_" + 111));
     }
+
     @Test(expected = org.springframework.beans.factory.NoSuchBeanDefinitionException.class)
-    public void cacheUnregisterTest(){
+    public void cacheUnregisterTest() {
         cacheNodeManager.unregisterCacheNode(111);
-        Assert.assertNull(applicationContext.getBean("h2jdbcXA_Node_"+111));
-        Assert.assertNull(applicationContext.getBean("h2DataSource_Node_"+111));
+        Assert.assertNull(applicationContext.getBean("h2jdbcXA_Node_" + 111));
+        Assert.assertNull(applicationContext.getBean("h2DataSource_Node_" + 111));
         cacheNodeManager.registerCacheNode(111);
     }
 }

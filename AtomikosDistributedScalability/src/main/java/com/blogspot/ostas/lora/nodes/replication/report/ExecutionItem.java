@@ -1,6 +1,6 @@
 package com.blogspot.ostas.lora.nodes.replication.report;
 
-public class ExecutionItem{
+public class ExecutionItem {
     int id;
     int nodesCount;
     long execTime;
